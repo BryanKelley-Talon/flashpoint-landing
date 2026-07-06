@@ -1,0 +1,12 @@
+/* ============================================================
+   Vite #root centering-bug override — required in every Flashpoint
+   project (CONVENTIONS.md → Design constants). Keep the !important flags.
+   All page styling lives in src/App.jsx's inline <style> block.
+   ============================================================ */
+#root {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
