@@ -12,7 +12,7 @@ const GAMES = [
   { std: "11.2", year: "1800", title: "The Fragile Republic", period: "1789–1824", accent: "#2C3E6B", status: "planned" },
   { std: "11.3", year: "1850", title: "The Last Compromise", period: "1820–1861", accent: "#2C4A2E", status: "planned" },
   { std: "11.4", year: "1865", title: "What Freedom Means", period: "1861–1877", accent: "#5C3A1E", status: "next" },
-  { std: "11.5", year: "1900", title: "A Nation in Reform", period: "1877–1920", accent: "#C17700", status: "live", url: "https://progressive-era-11r.netlify.app" },
+  { std: "11.5", year: "1900", title: "A Nation in Reform", period: "1877–1920", accent: "#C17700", status: "live", url: "https://progressive-era.flashpointhistory.com" },
   { std: "11.6", year: "1917", title: "The Weight of the World", period: "1898–1920", accent: "#8B6914", status: "planned" },
   { std: "11.7", year: "1932", title: "What the Country Owes", period: "1920–1940", accent: "#6E6E6E", status: "planned" },
   { std: "11.8", year: "1942", title: "The Price of Victory", period: "1939–1945", accent: "#8B0000", status: "planned" },
@@ -362,7 +362,7 @@ export default function App() {
             before the outcome was known.
           </p>
           <div className="fp-cta-row">
-            <a className="fp-btn fp-btn-solid" href="https://progressive-era-11r.netlify.app">
+            <a className="fp-btn fp-btn-solid" href="https://progressive-era.flashpointhistory.com">
               Play 1900 free
             </a>
             <a className="fp-btn fp-btn-ghost" href="#timeline">
