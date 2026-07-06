@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
    ============================================================ */
 
 const GAMES = [
-  { std: "11.1", year: "1776", title: "The Question That Started Everything", period: "1607–1789", accent: "#7B3F00", status: "planned" },
+  { std: "11.1", year: "1776", title: "The Question That Started Everything", period: "1607–1789", accent: "#7B3F00", status: "live", url: "https://founding.flashpointhistory.com" },
   { std: "11.2", year: "1800", title: "The Fragile Republic", period: "1789–1824", accent: "#2C3E6B", status: "planned" },
   { std: "11.3", year: "1850", title: "The Last Compromise", period: "1820–1861", accent: "#2C4A2E", status: "planned" },
   { std: "11.4", year: "1865", title: "What Freedom Means", period: "1861–1877", accent: "#5C3A1E", status: "next" },
