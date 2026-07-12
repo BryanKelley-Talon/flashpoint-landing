@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 const GAMES = [
   { std: "11.1", year: "1776", title: "The Question That Started Everything", period: "1607–1789", accent: "#7B3F00", status: "live", url: "https://founding.flashpointhistory.com" },
   { std: "11.2", year: "1800", title: "The Fragile Republic", period: "1789–1824", accent: "#6B9BD1", status: "live", url: "https://early-republic.flashpointhistory.com" },
-  { std: "11.3", year: "1850", title: "The Last Compromise", period: "1820–1861", accent: "#2C4A2E", status: "planned" },
+  { std: "11.3", year: "1850", title: "The Last Compromise", period: "1820–1861", accent: "#5AA57B", status: "live", url: "https://last-compromise.flashpointhistory.com" },
   { std: "11.4", year: "1865", title: "What Freedom Means", period: "1861–1877", accent: "#5C3A1E", status: "next" },
   { std: "11.5", year: "1900", title: "A Nation in Reform", period: "1877–1920", accent: "#C17700", status: "live", url: "https://progressive-era.flashpointhistory.com" },
   { std: "11.6", year: "1917", title: "The Weight of the World", period: "1898–1920", accent: "#8B6914", status: "planned" },
