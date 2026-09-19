@@ -7,25 +7,13 @@ import { useEffect, useRef, useState } from "react";
    renders from this data.
    ============================================================ */
 
-const GAMES = [
-  { std: "11.1", year: "1776", title: "The Question That Started Everything", period: "1607–1789", accent: "#7B3F00", status: "live", url: "https://founding.flashpointhistory.com" },
-  { std: "11.2", year: "1800", title: "The Fragile Republic", period: "1789–1824", accent: "#6B9BD1", status: "live", url: "https://early-republic.flashpointhistory.com" },
-  { std: "11.3", year: "1850", title: "The Last Compromise", period: "1820–1861", accent: "#5AA57B", status: "live", url: "https://last-compromise.flashpointhistory.com" },
-  { std: "11.4", year: "1865", title: "What Freedom Means", period: "1861–1877", accent: "#5C3A1E", status: "next" },
-  { std: "11.5", year: "1900", title: "A Nation in Reform", period: "1877–1920", accent: "#C17700", status: "live", url: "https://progressive-era.flashpointhistory.com" },
-  { std: "11.6", year: "1917", title: "The Weight of the World", period: "1898–1920", accent: "#8B6914", status: "planned" },
-  { std: "11.7", year: "1932", title: "What the Country Owes", period: "1920–1940", accent: "#6E6E6E", status: "planned" },
-  { std: "11.8", year: "1942", title: "The Price of Victory", period: "1939–1945", accent: "#8B0000", status: "planned" },
-  { std: "11.9", year: "1955", title: "The Long Walk Home", period: "1945–1968", accent: "#1A3A5C", status: "planned" },
-  { std: "11.10", year: "1968", title: "Everything at Once", period: "1964–1975", accent: "#556B2F", status: "planned" },
-  { std: "11.11", year: "1989", title: "The Wall and What Came After", period: "1975–present", accent: "#3E5C6B", status: "planned" },
-];
-
-const GLOBAL = [
-  { year: "1914", title: "A World on Fire", period: "WWI · Global 10R", status: "live", url: "https://wof-global10r.netlify.app" },
-  { year: "1939", title: "WWII & the Holocaust", period: "10.5 · Global 10R", status: "planned" },
-  { year: "1947", title: "Cold War & Decolonization", period: "10.6 · Global 10R", status: "planned" },
-];
+/* ── GAMES COME FROM THE SHARED MANIFEST ──────────────────────────────────
+   builds/_shared/games.json is the one list. It is copied into this site's
+   public/ and into the Arena's public/ by builds/_shared/sync-games.sh.
+   DO NOT re-add a hardcoded array here: the Arena links the same games from
+   its unit rooms, and two hand-maintained lists drift. A dead link in front
+   of a kid is worse than no link. — Josh, 2026-09-18 */
+const GAMES_URL = "/games.json";
 
 const ARENA_URL = "https://thearena.flashpointhistory.com";
 
@@ -301,6 +289,68 @@ a.fp-card-link:hover .fp-card { background: #211A13; border-color: #3A2E1E; bord
   .fp-node { opacity: 1; transform: none; transition: none; }
   .fp-spine-fill { transition: none; }
 }
+
+/* ============================================================
+   NAVY CHROME — BK's ruling 2026-09-18, the middle option.
+   The PAGE takes the Arena's navy identity. The GAME CARDS keep their warm
+   era accents and their serif, because each game is its own world and the
+   era accents are canon in flashpoint-tokens.css. The lane split is what
+   makes that legible: navy lane to the training room, warm lane to the worlds.
+   Shared game tokens are NOT touched by this file.
+   ============================================================ */
+:root{
+  --nv:#0B1220; --nv-card:#131C2E; --nv-card-lit:#1A2538; --nv-edge:#22304A;
+  --nv-gold:#E3B341; --nv-gold-lit:#F5CB63; --nv-white:#F4F6FA; --nv-grey:#8FA0B8;
+}
+.fp-page{background:var(--nv)}
+.fp-hero{background:
+  radial-gradient(1200px 520px at 50% -12%, #16223A 0%, rgba(11,18,32,0) 68%),
+  linear-gradient(180deg,#0E1728 0%,var(--nv) 100%) !important}
+.fp-hero h1{color:var(--nv-white)}
+.fp-hero h1 em{color:var(--nv-gold)}
+.fp-hero p.fp-sub{color:var(--nv-grey)}
+.fp-eyebrow{color:var(--nv-gold)}
+.fp-eyebrow::after{background:linear-gradient(90deg,var(--nv-gold),rgba(227,179,65,0))}
+.fp-rule{border-color:var(--nv-edge)}
+.fp-trust{background:#0E1728;border-color:var(--nv-edge)}
+.fp-trust li{color:var(--nv-grey)}
+.fp-trust li::before{background:var(--nv-gold)}
+.fp-section h2{color:var(--nv-white)}
+.fp-section p.fp-lede{color:var(--nv-grey)}
+
+/* ---- THE TWO LANES ---- */
+.fp-lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));
+  gap:16px;margin-top:38px;max-width:780px}
+.fp-lane{display:flex;flex-direction:column;gap:7px;padding:24px 22px;border-radius:14px;
+  text-decoration:none;background:var(--nv-card);border:1px solid var(--nv-edge);
+  transition:transform .14s cubic-bezier(.18,.89,.32,1.28),
+             background-color .12s ease,border-color .12s ease,box-shadow .14s ease}
+.fp-lane:hover{transform:translateY(-3px);background:var(--nv-card-lit);
+  box-shadow:0 12px 34px -14px #0008}
+.fp-lane:focus-visible{outline:3px solid var(--nv-gold-lit);outline-offset:3px}
+.fp-lane-kicker{font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:.22em;
+  font-size:11px}
+.fp-lane-name{font-family:'Playfair Display',serif;font-size:31px;line-height:1.05;
+  color:var(--nv-white)}
+.fp-lane-blurb{color:var(--nv-grey);font-size:14.5px;line-height:1.5;margin-top:2px}
+.fp-lane-go{margin-top:9px;font-size:13.5px;font-weight:600}
+/* The two lanes differ by NAME and KICKER first. Colour is the second signal. */
+.fp-lane-arena{border-left:4px solid var(--nv-gold)}
+.fp-lane-arena .fp-lane-kicker,.fp-lane-arena .fp-lane-go{color:var(--nv-gold)}
+.fp-lane-arena:hover{border-color:var(--nv-gold)}
+.fp-lane-games{border-left:4px solid #C17700}
+.fp-lane-games .fp-lane-kicker,.fp-lane-games .fp-lane-go{color:#E89923}
+.fp-lane-games:hover{border-color:#C17700}
+
+/* ---- the game cards stay WARM on the navy ground ---- */
+.fp-card,.fp-gcard{background:#1A1610 !important;border-color:#2F2619 !important}
+a.fp-card-link:hover .fp-card{background:#221B12 !important}
+.fp-spine{background:var(--nv-edge) !important}
+@media (prefers-reduced-motion:reduce){
+  .fp-lane{transition:background-color .01ms,border-color .01ms}
+  .fp-lane:hover{transform:none;box-shadow:inset 0 0 0 1px var(--nv-gold)}
+}
+@media (max-width:560px){ .fp-lanes{grid-template-columns:1fr} }
 `;
 
 function statusLabel(s) {
@@ -312,6 +362,15 @@ function statusLabel(s) {
 export default function App() {
   const timelineRef = useRef(null);
   const [fill, setFill] = useState(0);
+  const [manifest, setManifest] = useState(null);
+
+  useEffect(() => {
+    fetch(GAMES_URL).then(r => r.json()).then(setManifest).catch(() => setManifest({ games: [] }));
+  }, []);
+
+  const all = (manifest && manifest.games) || [];
+  const GAMES = all.filter(g => g.course === "us11r");
+  const GLOBAL = all.filter(g => g.course === "global10r");
 
   /* Spine fill tracks scroll progress through the timeline */
   useEffect(() => {
@@ -327,7 +386,7 @@ export default function App() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [manifest]);
 
   /* Nodes ignite as they enter the viewport */
   useEffect(() => {
@@ -340,13 +399,20 @@ export default function App() {
     );
     nodes.forEach((n) => obs.observe(n));
     return () => obs.disconnect();
-  }, []);
+    // DEPENDS ON `manifest`, and must. The timeline nodes do not exist on mount
+    // any more — they render after games.json resolves. With an empty dep array
+    // this observer found nothing, never fired, and every node stayed at
+    // opacity:0 behind a spine. The build was clean and the console was silent.
+    // Caught by rendering the page and looking at it. — Josh, 2026-09-18
+  }, [manifest]);
 
   return (
     <div className="fp-page">
       <style>{CSS}</style>
 
-      {/* ---------- HERO ---------- */}
+      {/* ---------- HERO + THE TWO LANES ---------- */}
+      {/* BK's own hero copy is unchanged. What is new below it is the lane
+         split: a student picks a room before they pick a thing inside it. */}
       <header className="fp-hero">
         <div className="fp-wrap fp-hero-inner">
           <span className="fp-eyebrow">Flashpoint History</span>
@@ -361,12 +427,25 @@ export default function App() {
             inhabit real, documented people at real turning points — and choose,
             before the outcome was known.
           </p>
-          <div className="fp-cta-row">
-            <a className="fp-btn fp-btn-solid" href="https://progressive-era.flashpointhistory.com">
-              Play 1900 free
+
+          <div className="fp-lanes">
+            <a className="fp-lane fp-lane-arena" href={ARENA_URL}>
+              <span className="fp-lane-kicker">Practice</span>
+              <span className="fp-lane-name">The Arena</span>
+              <span className="fp-lane-blurb">
+                Skill stations, unit rooms and Regents review. Nothing graded,
+                nothing saved.
+              </span>
+              <span className="fp-lane-go">Enter the Arena →</span>
             </a>
-            <a className="fp-btn fp-btn-ghost" href="#timeline">
-              See the timeline
+            <a className="fp-lane fp-lane-games" href="#timeline">
+              <span className="fp-lane-kicker">Play</span>
+              <span className="fp-lane-name">The Games</span>
+              <span className="fp-lane-blurb">
+                One consequential year at a time. Step in and decide before the
+                outcome was known.
+              </span>
+              <span className="fp-lane-go">See the timeline →</span>
             </a>
           </div>
         </div>
