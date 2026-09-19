@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
 /* ============================================================
-   FLASHPOINT HISTORY — Timeline Landing Page
+   FLASHPOINT HISTORY — Landing Page
    Deploys to the root domain (flashpointhistory.com).
+   Two real pages, one bundle, path-based:
+     /            — Home: hero + the two lanes only. Nothing else.
+     /decisions   — the US11R timeline + the Global 10R lane. Behind
+                    the Decisions door, not visible on Home. Direct
+                    links work via public/_redirects (SPA fallback).
    Edit GAMES / GLOBAL / ARENA_URL below — everything else
    renders from this data.
    ============================================================ */
@@ -88,20 +93,6 @@ a { color: inherit; }
   color: #C9BBA4;
   margin: 22px 0 34px;
 }
-.fp-cta-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
-.fp-btn {
-  display: inline-block;
-  font-family: 'Cinzel', serif; font-weight: 600;
-  font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
-  padding: 15px 30px;
-  text-decoration: none;
-  border-radius: 2px;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-.fp-btn-solid { background: #C17700; color: #16120E; border: 1px solid #C17700; }
-.fp-btn-solid:hover { background: #E89923; border-color: #E89923; }
-.fp-btn-ghost { background: transparent; color: #EDE3D2; border: 1px solid #5C4A32; }
-.fp-btn-ghost:hover { border-color: #C17700; color: #E89923; }
 
 /* ---------- trust strip ---------- */
 .fp-trust {
@@ -233,30 +224,6 @@ a.fp-card-link:hover .fp-card { background: #211A13; border-color: #3A2E1E; bord
 .fp-gcard h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin: 0 0 4px; }
 .fp-gcard p { font-size: 14.5px; color: #A08B6C; margin: 0; font-style: italic; }
 
-/* ---------- arena band ---------- */
-/* Subordinate "what's next" band — muted, compact, no amber glow, so it
-   never competes with the live products above it. */
-.fp-arena {
-  border-top: 1px solid #241C14;
-  background: #18130F;
-}
-.fp-arena-inner {
-  padding: 40px 0;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 32px; flex-wrap: wrap;
-}
-.fp-arena h2 {
-  font-family: 'Playfair Display', serif; font-weight: 700;
-  font-size: clamp(1.35rem, 2.2vw, 1.7rem); margin: 10px 0 8px;
-  color: #C9BBA4;
-}
-.fp-arena p { max-width: 560px; color: #9A8B72; margin: 0; font-size: 15.5px; }
-.fp-arena blockquote {
-  margin: 18px 0 0; padding-left: 18px;
-  border-left: 2px solid #C17700;
-  font-style: italic; color: #A08B6C; font-size: 15.5px;
-}
-
 /* ---------- footer ---------- */
 .fp-footer { padding: 64px 0 56px; }
 .fp-footer-inner {
@@ -318,7 +285,7 @@ a.fp-card-link:hover .fp-card { background: #211A13; border-color: #3A2E1E; bord
 .fp-section h2{color:var(--nv-white)}
 .fp-section p.fp-lede{color:var(--nv-grey)}
 
-/* ---- THE TWO LANES ---- */
+/* ---- THE TWO LANES (Home only) ---- */
 .fp-lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));
   gap:16px;margin-top:38px;max-width:780px}
 .fp-lane{display:flex;flex-direction:column;gap:7px;padding:24px 22px;border-radius:14px;
@@ -342,6 +309,14 @@ a.fp-card-link:hover .fp-card { background: #211A13; border-color: #3A2E1E; bord
 .fp-lane-games .fp-lane-kicker,.fp-lane-games .fp-lane-go{color:#E89923}
 .fp-lane-games:hover{border-color:#C17700}
 
+/* ---- Decisions page back link ---- */
+.fp-decisions-top{padding:30px 0 0}
+.fp-back{
+  font-family:'Cinzel',serif;font-weight:600;font-size:12.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--nv-gold);text-decoration:none;
+}
+.fp-back:hover{color:var(--nv-gold-lit)}
+
 /* ---- the game cards stay WARM on the navy ground ---- */
 .fp-card,.fp-gcard{background:#1A1610 !important;border-color:#2F2619 !important}
 a.fp-card-link:hover .fp-card{background:#221B12 !important}
@@ -359,60 +334,43 @@ function statusLabel(s) {
   return "In development";
 }
 
-export default function App() {
-  const timelineRef = useRef(null);
-  const [fill, setFill] = useState(0);
-  const [manifest, setManifest] = useState(null);
+/* Reads the path ONCE at mount. Plain <a> links do a real navigation
+   between "/" and "/decisions" — no client router needed for two pages.
+   public/_redirects sends any path back to index.html so a direct link
+   to /decisions still resolves; this then picks the right view. */
+function currentView() {
+  if (typeof window === "undefined") return "home";
+  return window.location.pathname.replace(/\/+$/, "") === "/decisions" ? "decisions" : "home";
+}
 
-  useEffect(() => {
-    fetch(GAMES_URL).then(r => r.json()).then(setManifest).catch(() => setManifest({ games: [] }));
-  }, []);
+function Footer() {
+  return (
+    <footer className="fp-footer">
+      <div className="fp-wrap fp-footer-inner">
+        <div>
+          <span className="fp-wordmark">FLASHPOINT HISTORY</span>
+          <p className="fp-tag">History turns on moments. Step into them.</p>
+        </div>
+        <div>
+          <p>Built by a working classroom teacher. Free to play in any browser.</p>
+          <p>© {new Date().getFullYear()} Flashpoint History</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
 
-  const all = (manifest && manifest.games) || [];
-  const GAMES = all.filter(g => g.course === "us11r");
-  const GLOBAL = all.filter(g => g.course === "global10r");
-
-  /* Spine fill tracks scroll progress through the timeline */
-  useEffect(() => {
-    const onScroll = () => {
-      const el = timelineRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const total = rect.height;
-      const progressed = Math.min(Math.max(vh * 0.75 - rect.top, 0), total);
-      setFill((progressed / total) * 100);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [manifest]);
-
-  /* Nodes ignite as they enter the viewport */
-  useEffect(() => {
-    const nodes = document.querySelectorAll(".fp-node");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) { nodes.forEach((n) => n.classList.add("lit")); return; }
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("lit"); }),
-      { threshold: 0.35 }
-    );
-    nodes.forEach((n) => obs.observe(n));
-    return () => obs.disconnect();
-    // DEPENDS ON `manifest`, and must. The timeline nodes do not exist on mount
-    // any more — they render after games.json resolves. With an empty dep array
-    // this observer found nothing, never fired, and every node stayed at
-    // opacity:0 behind a spine. The build was clean and the console was silent.
-    // Caught by rendering the page and looking at it. — Josh, 2026-09-18
-  }, [manifest]);
-
+function Home() {
   return (
     <div className="fp-page">
       <style>{CSS}</style>
 
       {/* ---------- HERO + THE TWO LANES ---------- */}
-      {/* BK's own hero copy is unchanged. What is new below it is the lane
-         split: a student picks a room before they pick a thing inside it. */}
+      {/* BK's own hero copy, minus "games" (filter-safety naming pass,
+         2026-09-19 — same discipline as every Arena game name). What's
+         below it is the lane split: a student picks a room before they
+         pick a thing inside it. Home is ONLY the hero + the two lanes —
+         nothing else lives on this page. */}
       <header className="fp-hero">
         <div className="fp-wrap fp-hero-inner">
           <span className="fp-eyebrow">Flashpoint History</span>
@@ -423,7 +381,7 @@ export default function App() {
           </h1>
           <hr className="fp-rule" />
           <p className="fp-sub">
-            Decision-driven history games for the NYS Regents classroom. Students
+            Decision-driven history for the NYS Regents classroom. Students
             inhabit real, documented people at real turning points — and choose,
             before the outcome was known.
           </p>
@@ -438,9 +396,9 @@ export default function App() {
               </span>
               <span className="fp-lane-go">Enter the Arena →</span>
             </a>
-            <a className="fp-lane fp-lane-games" href="#timeline">
-              <span className="fp-lane-kicker">Play</span>
-              <span className="fp-lane-name">The Games</span>
+            <a className="fp-lane fp-lane-games" href="/decisions">
+              <span className="fp-lane-kicker">Decide</span>
+              <span className="fp-lane-name">The Decisions</span>
               <span className="fp-lane-blurb">
                 One consequential year at a time. Step in and decide before the
                 outcome was known.
@@ -464,15 +422,32 @@ export default function App() {
         </div>
       </div>
 
+      <Footer />
+    </div>
+  );
+}
+
+function Decisions({ GAMES, GLOBAL, fill, timelineRef }) {
+  return (
+    <div className="fp-page">
+      <style>{CSS}</style>
+
+      {/* ---------- BACK TO HOME ---------- */}
+      <div className="fp-decisions-top">
+        <div className="fp-wrap">
+          <a className="fp-back" href="/">← Flashpoint History</a>
+        </div>
+      </div>
+
       {/* ---------- 11R TIMELINE ---------- */}
       <section className="fp-section" id="timeline">
         <div className="fp-wrap">
           <span className="fp-eyebrow">US History &amp; Government · 11R</span>
           <h2>One year. Eleven flashpoints.</h2>
           <p className="fp-lede">
-            A game for every unit, NYSED Standards 11.1 through 11.11. Each one
-            places students inside a single consequential year — seven chapters,
-            playable within a class period.
+            A decision for every unit, NYSED Standards 11.1 through 11.11. Each
+            one places students inside a single consequential year — seven
+            chapters, playable within a class period.
           </p>
         </div>
         <div className="fp-wrap">
@@ -533,65 +508,63 @@ export default function App() {
         </div>
       </section>
 
-      {/* ---------- THE ARENA ---------- */}
-      <section className="fp-arena">
-        <div className="fp-wrap fp-arena-inner">
-          <div>
-            <span className="fp-eyebrow">Regents Skills Trainer</span>
-            <h2>
-              The Arena
-              <span
-                style={{
-                  marginLeft: 14,
-                  fontFamily: "'Cinzel', serif",
-                  fontWeight: 600,
-                  fontSize: 12,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "#C9BBA4",
-                  border: "1px solid #3A2E1E",
-                  borderRadius: 2,
-                  padding: "4px 11px",
-                  verticalAlign: "middle",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Coming Soon
-              </span>
-            </h2>
-            <p>
-              Twelve training stations. Seven reference tools. Active writing
-              practice for every skill the exam actually tests — from claims and
-              evidence to the full essay.
-            </p>
-            <blockquote>
-              Designed to stay open year-round — students will step in, write, and
-              leave stronger than they arrived.
-            </blockquote>
-          </div>
-          <span
-            className="fp-btn fp-btn-ghost"
-            aria-disabled="true"
-            style={{ cursor: "default", opacity: 0.7 }}
-          >
-            Coming Soon
-          </span>
-        </div>
-      </section>
-
-      {/* ---------- FOOTER ---------- */}
-      <footer className="fp-footer">
-        <div className="fp-wrap fp-footer-inner">
-          <div>
-            <span className="fp-wordmark">FLASHPOINT HISTORY</span>
-            <p className="fp-tag">History turns on moments. Step into them.</p>
-          </div>
-          <div>
-            <p>Built by a working classroom teacher. Free to play in any browser.</p>
-            <p>© {new Date().getFullYear()} Flashpoint History</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
+}
+
+export default function App() {
+  const timelineRef = useRef(null);
+  const [fill, setFill] = useState(0);
+  const [manifest, setManifest] = useState(null);
+  const [view] = useState(currentView);
+
+  useEffect(() => {
+    fetch(GAMES_URL).then(r => r.json()).then(setManifest).catch(() => setManifest({ games: [] }));
+  }, []);
+
+  const all = (manifest && manifest.games) || [];
+  const GAMES = all.filter(g => g.course === "us11r");
+  const GLOBAL = all.filter(g => g.course === "global10r");
+
+  /* Spine fill tracks scroll progress through the timeline.
+     No-op on Home: timelineRef.current is null there, nothing to measure. */
+  useEffect(() => {
+    const onScroll = () => {
+      const el = timelineRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height;
+      const progressed = Math.min(Math.max(vh * 0.75 - rect.top, 0), total);
+      setFill((progressed / total) * 100);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [manifest]);
+
+  /* Nodes ignite as they enter the viewport. No-op on Home: querySelectorAll
+     finds nothing there, the observer just has nothing to watch. */
+  useEffect(() => {
+    const nodes = document.querySelectorAll(".fp-node");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) { nodes.forEach((n) => n.classList.add("lit")); return; }
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("lit"); }),
+      { threshold: 0.35 }
+    );
+    nodes.forEach((n) => obs.observe(n));
+    return () => obs.disconnect();
+    // DEPENDS ON `manifest`, and must. The timeline nodes do not exist on mount
+    // any more — they render after games.json resolves. With an empty dep array
+    // this observer found nothing, never fired, and every node stayed at
+    // opacity:0 behind a spine. The build was clean and the console was silent.
+    // Caught by rendering the page and looking at it. — Josh, 2026-09-18
+  }, [manifest, view]);
+
+  if (view === "decisions") {
+    return <Decisions GAMES={GAMES} GLOBAL={GLOBAL} fill={fill} timelineRef={timelineRef} />;
+  }
+  return <Home />;
 }
