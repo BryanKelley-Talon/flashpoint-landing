@@ -1,0 +1,15 @@
+// Cloudflare Workers static-assets config for flashpointhistory.com, the hub (Josh, 2026-10-04).
+// Same pattern as The Arena (2026-09-25) and Skills Review Bowl (2026-09-27): no server code;
+// Cloudflare serves the built dist/ folder and nothing else. Nothing is stored or sent.
+// BK ruled the move 2026-10-04 00:10 (Leo's memo In/leo-memo-2026-10-04-hub-to-cloudflare-TOP-OF-LIST.md).
+// Netlify ignores this file, so the Netlify site keeps working as the undo.
+{
+  "name": "flashpoint-landing",
+  "compatibility_date": "2025-09-01",
+  // Branch pushes build a private preview (wrangler preview needs this block).
+  "previews": {},
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

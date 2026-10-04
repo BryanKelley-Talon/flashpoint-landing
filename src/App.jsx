@@ -196,7 +196,7 @@ a.fp-card-link:hover .fp-card { background: #211A13; border-color: #3A2E1E; bord
 }
 .fp-status.live { color: #E89923; }
 .fp-status.next { color: #C9BBA4; }
-.fp-status.planned { color: #6E5F49; }
+.fp-status.planned { color: #9A8A70; }   /* 5.35:1 on the card #1A1610 (was #6E5F49, 2.91:1); BK D10 "planned too", 2026-10-04 07:39 */
 .fp-card h3 {
   font-family: 'Playfair Display', serif; font-weight: 700;
   font-size: 24px; margin: 4px 0 6px; color: #EDE3D2;
