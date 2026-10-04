@@ -8,7 +8,10 @@ import { useEffect, useRef, useState } from "react";
      /decisions   — the US11R timeline + the Global 10R lane. Behind
                     the Decisions door, not visible on Home. Direct
                     links work via public/_redirects (SPA fallback).
-   Edit GAMES / GLOBAL / ARENA_URL below — everything else
+     /arena       — what the Arena is and how it works. There is NO
+                    public way in (BK 2026-10-03 22:14): students use
+                    the link from their class. Words approved 22:18.
+   Edit GAMES / GLOBAL below — everything else
    renders from this data.
    ============================================================ */
 
@@ -20,7 +23,8 @@ import { useEffect, useRef, useState } from "react";
    of a kid is worse than no link. — Josh, 2026-09-18 */
 const GAMES_URL = "/games.json";
 
-const ARENA_URL = "https://thearena.flashpointhistory.com";
+/* No link into the Arena from the public site (BK 2026-10-03 22:14: "No public place
+   to enter it"). Students reach it through the link from their class. */
 
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Libre+Baskerville:ital@0;1&display=swap');
@@ -326,6 +330,17 @@ a.fp-card-link:hover .fp-card{background:#221B12 !important}
   .fp-lane:hover{transform:none;box-shadow:inset 0 0 0 1px var(--nv-gold)}
 }
 @media (max-width:560px){ .fp-lanes{grid-template-columns:1fr} }
+
+/* ---- /arena: the about page ---- */
+.fp-about .fp-wrap{max-width:760px}
+.fp-about h2{margin-top:10px;text-wrap:balance}
+.fp-about .fp-lede{max-width:none}
+.fp-about-h{font-family:'Cinzel',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--nv-gold);margin:34px 0 12px}
+.fp-about-list{margin:0;padding-left:20px;color:var(--nv-white);font-size:16.5px;line-height:1.6;display:flex;flex-direction:column;gap:8px}
+.fp-about-list ul{margin:6px 0 2px;padding-left:20px;color:var(--nv-grey);display:flex;flex-direction:column;gap:4px}
+.fp-about-list b{color:var(--nv-gold-lit);font-weight:600}
+.fp-about-p{color:var(--nv-white);font-size:16.5px;line-height:1.6;margin:0}
 `;
 
 function statusLabel(s) {
@@ -340,7 +355,8 @@ function statusLabel(s) {
    to /decisions still resolves; this then picks the right view. */
 function currentView() {
   if (typeof window === "undefined") return "home";
-  return window.location.pathname.replace(/\/+$/, "") === "/decisions" ? "decisions" : "home";
+  const path = window.location.pathname.replace(/\/+$/, "");
+  return path === "/decisions" ? "decisions" : path === "/arena" ? "arena" : "home";
 }
 
 function Footer() {
@@ -387,14 +403,14 @@ function Home() {
           </p>
 
           <div className="fp-lanes">
-            <a className="fp-lane fp-lane-arena" href={ARENA_URL}>
+            <a className="fp-lane fp-lane-arena" href="/arena">
               <span className="fp-lane-kicker">Practice</span>
               <span className="fp-lane-name">The Arena</span>
               <span className="fp-lane-blurb">
-                Skill stations, unit rooms and Regents review. Nothing graded,
-                nothing saved.
+                A PBIS system running inside one classroom. See what's inside
+                and how it works.
               </span>
-              <span className="fp-lane-go">Enter the Arena →</span>
+              <span className="fp-lane-go">About the Arena →</span>
             </a>
             <a className="fp-lane fp-lane-games" href="/decisions">
               <span className="fp-lane-kicker">Decide</span>
@@ -422,6 +438,60 @@ function Home() {
         </div>
       </div>
 
+      <Footer />
+    </div>
+  );
+}
+
+/* ---------- /arena — what the Arena is (BK's words, approved 2026-10-03 22:18) ---------- */
+function ArenaAbout() {
+  return (
+    <div className="fp-page">
+      <style>{CSS}</style>
+      <div className="fp-decisions-top">
+        <div className="fp-wrap">
+          <a className="fp-back" href="/">← Flashpoint History</a>
+        </div>
+      </div>
+      <section className="fp-section fp-about">
+        <div className="fp-wrap">
+          <span className="fp-eyebrow">The Arena · A PBIS system inside one classroom</span>
+          <h2>One child, one room, an entire building.</h2>
+          <p className="fp-lede">
+            The Arena is a PBIS system running inside one classroom. A teacher at CPP made it for
+            his students in Global History and Geography 10R and US History and Government 11R.
+            Students practice the skills the Regents exam tests, and alongside them, the building's
+            own expectations: Be a Hawk. Nothing in it is graded. It builds an entire building, one
+            kid at a time.
+          </p>
+
+          <h3 className="fp-about-h">What's inside</h3>
+          <ul className="fp-about-list">
+            <li><b>The six skills:</b> Historical Context, Thesis, Document Use, Explanation, Civic Principle or Enduring Issue, and Outside Evidence.</li>
+            <li><b>A room for every unit,</b> opening as the class reaches it, with the unit review.</li>
+            <li><b>Doc Assist:</b> every casefile's documents, one at a time, each with its source.
+              <ul>
+                <li>“Walk me through it” takes a student through the document in four short questions.</li>
+                <li>“Easier to read” puts a plainer version beside the original.</li>
+                <li>“Read it to me” reads the document aloud on the student's own Chromebook.</li>
+              </ul>
+            </li>
+            <li><b>Unit 0:</b> the six skills outside a history class, for new students and their families.</li>
+            <li><b>The Office:</b> a monthly theme built around the building's expectations, with a lesson, practice and a bonus.</li>
+            <li><b>The Skills Review Bowl:</b> a review game where right answers build your team.</li>
+          </ul>
+
+          <h3 className="fp-about-h">How it works</h3>
+          <ul className="fp-about-list">
+            <li>There's no public way in. Students reach the Arena through the link from their class, with no account and no login.</li>
+            <li>Nothing is graded and nothing is saved. Nothing about a student leaves their own Chromebook.</li>
+            <li>It's meant for review on a student's own time, or when a teacher allows it in class. No teacher requires it, and it's never permission to skip work in another class.</li>
+          </ul>
+
+          <h3 className="fp-about-h">For families and visitors</h3>
+          <p className="fp-about-p">The link to the Arena is shared in class. To see it, ask your student to show you Unit 0, the six skills.</p>
+        </div>
+      </section>
       <Footer />
     </div>
   );
@@ -563,6 +633,7 @@ export default function App() {
     // Caught by rendering the page and looking at it. — Josh, 2026-09-18
   }, [manifest, view]);
 
+  if (view === "arena") return <ArenaAbout />;
   if (view === "decisions") {
     return <Decisions GAMES={GAMES} GLOBAL={GLOBAL} fill={fill} timelineRef={timelineRef} />;
   }
