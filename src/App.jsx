@@ -10,7 +10,9 @@ import { useEffect, useRef, useState } from "react";
                     links work via public/_redirects (SPA fallback).
      /arena       — what the Arena is and how it works. There is NO
                     public way in (BK 2026-10-03 22:14): students use
-                    the link from their class. Words approved 22:18.
+                    the link from their class. Final words: Leo's order
+                    2026-10-03 23:09 (BK 22:32-22:55, CJ 22:49). No PBIS
+                    and no Be a Hawk on the public page (BK 22:46).
    Edit GAMES / GLOBAL below — everything else
    renders from this data.
    ============================================================ */
@@ -238,7 +240,7 @@ a.fp-card-link:hover .fp-card { background: #211A13; border-color: #3A2E1E; bord
   font-family: 'Cinzel', serif; font-weight: 600;
   letter-spacing: 0.3em; font-size: 15px; color: #EDE3D2;
 }
-.fp-footer p { font-size: 13.5px; color: #6E5F49; margin: 6px 0 0; }
+.fp-footer p { font-size: 13.5px; color: #9A8A70; margin: 6px 0 0; }
 .fp-footer .fp-tag { font-style: italic; font-family: 'Playfair Display', serif; color: #A08B6C; font-size: 15px; }
 
 /* ---------- responsive ---------- */
@@ -407,8 +409,7 @@ function Home() {
               <span className="fp-lane-kicker">Practice</span>
               <span className="fp-lane-name">The Arena</span>
               <span className="fp-lane-blurb">
-                A PBIS system running inside one classroom. See what's inside
-                and how it works.
+                A companion to one classroom. See what's inside and how it works.
               </span>
               <span className="fp-lane-go">About the Arena →</span>
             </a>
@@ -443,7 +444,7 @@ function Home() {
   );
 }
 
-/* ---------- /arena — what the Arena is (BK's words, approved 2026-10-03 22:18) ---------- */
+/* ---------- /arena — what the Arena is (final words: Leo's order 2026-10-03 23:09) ---------- */
 function ArenaAbout() {
   return (
     <div className="fp-page">
@@ -455,14 +456,13 @@ function ArenaAbout() {
       </div>
       <section className="fp-section fp-about">
         <div className="fp-wrap">
-          <span className="fp-eyebrow">The Arena · A PBIS system inside one classroom</span>
+          <span className="fp-eyebrow">The Arena · A companion to one classroom</span>
           <h2>One child, one room, an entire building.</h2>
           <p className="fp-lede">
-            The Arena is a PBIS system running inside one classroom. A teacher at CPP made it for
-            his students in Global History and Geography 10R and US History and Government 11R.
-            Students practice the skills the Regents exam tests, and alongside them, the building's
-            own expectations: Be a Hawk. Nothing in it is graded. It builds an entire building, one
-            kid at a time.
+            The Arena is a companion to one classroom. It works in tandem with the district's devices
+            and digital learning spaces. A teacher at CPP made it for his students in Global History
+            and Geography 10R and US History and Government 11R, to practice the skills the Regents
+            exam tests. The goal: help one kid be better, then one class, then the building.
           </p>
 
           <h3 className="fp-about-h">What's inside</h3>
@@ -473,7 +473,7 @@ function ArenaAbout() {
               <ul>
                 <li>“Walk me through it” takes a student through the document in four short questions.</li>
                 <li>“Easier to read” puts a plainer version beside the original.</li>
-                <li>“Read it to me” reads the document aloud on the student's own Chromebook.</li>
+                <li>“Read it to me” reads the document aloud on the student's own device.</li>
               </ul>
             </li>
             <li><b>Unit 0:</b> the six skills outside a history class, for new students and their families.</li>
@@ -484,8 +484,10 @@ function ArenaAbout() {
           <h3 className="fp-about-h">How it works</h3>
           <ul className="fp-about-list">
             <li>There's no public way in. Students reach the Arena through the link from their class, with no account and no login.</li>
-            <li>Nothing is graded and nothing is saved. Nothing about a student leaves their own Chromebook.</li>
-            <li>It's meant for review on a student's own time, or when a teacher allows it in class. No teacher requires it, and it's never permission to skip work in another class.</li>
+            <li>Nothing in the Arena is graded. Some of its work can be turned in on Google Classroom as a BONUS, which can only help.</li>
+            <li>Progress stays on the student's own device. Nothing about a student leaves it.</li>
+            <li>It's for review on a student's own time, or when a teacher uses it in class. It's never permission to skip work in another class.</li>
+            <li>What it won't do: give answers, or try to keep students playing.</li>
           </ul>
 
           <h3 className="fp-about-h">For families and visitors</h3>
