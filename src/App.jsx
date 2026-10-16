@@ -531,7 +531,7 @@ function Decisions({ GAMES, GLOBAL, fill, timelineRef }) {
                 <div className="fp-card" style={{ "--accent": g.accent }}>
                   <div className="fp-card-top">
                     {/* CJ v2 (Danny clean 10/15 19:52): UNIT, not STANDARD; a card with no unit prints no label (1968, 1989; BK 19:41). */}
-                    {g.std ? <span className="fp-std">UNIT {g.std}</span> : <span />}
+                    {g.std ? <span className="fp-std">UNIT {g.std}</span> : null}
                     <span className={`fp-status ${g.status}`}>{statusLabel(g.status)}</span>
                   </div>
                   <h3>{g.year}: {g.title}</h3>
