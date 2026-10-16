@@ -348,7 +348,7 @@ a.fp-card-link:hover .fp-card{background:#221B12 !important}
 function statusLabel(s) {
   if (s === "live") return "Live — play free";
   if (s === "next") return "In production";
-  return "In development";
+  return "Planned";   // CJ v2 P1 (10/15): matches games.json 'planned'; uppercase by .fp-status
 }
 
 /* Reads the path ONCE at mount. Plain <a> links do a real navigation
@@ -400,8 +400,7 @@ function Home() {
           <hr className="fp-rule" />
           <p className="fp-sub">
             Decision-driven history for the NYS Regents classroom. Students
-            inhabit real, documented people at real turning points — and choose,
-            before the outcome was known.
+            make the choices people faced at real turning points.
           </p>
 
           <div className="fp-lanes">
@@ -517,7 +516,7 @@ function Decisions({ GAMES, GLOBAL, fill, timelineRef }) {
           <span className="fp-eyebrow">US History &amp; Government · 11R</span>
           <h2>One year. Eleven flashpoints.</h2>
           <p className="fp-lede">
-            A decision for every unit, NYSED Standards 11.1 through 11.11. Each
+            Eleven turning points across the course, from 1776 to 1989. Each
             one places students inside a single consequential year — seven
             chapters, playable within a class period.
           </p>
@@ -531,7 +530,8 @@ function Decisions({ GAMES, GLOBAL, fill, timelineRef }) {
               const card = (
                 <div className="fp-card" style={{ "--accent": g.accent }}>
                   <div className="fp-card-top">
-                    <span className="fp-std">STANDARD {g.std}</span>
+                    {/* CJ v2 (Danny clean 10/15 19:52): UNIT, not STANDARD; a card with no unit prints no label (1968, 1989; BK 19:41). */}
+                    {g.std ? <span className="fp-std">UNIT {g.std}</span> : <span />}
                     <span className={`fp-status ${g.status}`}>{statusLabel(g.status)}</span>
                   </div>
                   <h3>{g.year}: {g.title}</h3>
@@ -540,7 +540,7 @@ function Decisions({ GAMES, GLOBAL, fill, timelineRef }) {
                 </div>
               );
               return (
-                <div className="fp-node" key={g.std} style={{ "--accent": g.accent }}>
+                <div className="fp-node" key={g.id} style={{ "--accent": g.accent }}>
                   <span className="fp-year">{g.year}</span>
                   <span className="fp-node-dot" />
                   {g.url ? (
