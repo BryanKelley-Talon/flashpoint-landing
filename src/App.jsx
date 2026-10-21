@@ -482,7 +482,7 @@ function ArenaAbout() {
 
           <h3 className="fp-about-h">How it works</h3>
           <ul className="fp-about-list">
-            <li>There's no public way in. Students reach the Arena through the link from their class, with no account and no login.</li>
+            <li>Students reach the Arena through the link from their class, with no account and no login. Teachers can look around at thearena.flashpointhistory.com.</li>
             <li>Nothing in the Arena is graded. Some of its work can be turned in on Google Classroom as a BONUS, which can only help.</li>
             <li>Progress stays on the student's own device. Nothing about a student leaves it.</li>
             <li>It's for review on a student's own time, or when a teacher uses it in class. It's never permission to skip work in another class.</li>
