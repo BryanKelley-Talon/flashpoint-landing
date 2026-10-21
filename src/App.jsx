@@ -466,7 +466,7 @@ function ArenaAbout() {
 
           <h3 className="fp-about-h">What's inside</h3>
           <ul className="fp-about-list">
-            <li><b>The six skills:</b> Historical Context, Thesis, Document Use, Explanation, Civic Principle or Enduring Issue, and Outside Evidence.</li>
+            <li><b>The six skills:</b> Historical Context, Thesis, Document Use, Explanation, Civic Principle or Enduring Issue, and Outside Information.</li>
             <li><b>A room for every unit,</b> opening as the class reaches it, with the unit review.</li>
             <li><b>Doc Assist:</b> every casefile's documents, one at a time, each with its source.
               <ul>
